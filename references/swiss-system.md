@@ -1,44 +1,44 @@
-# Swiss Sistem
+# Swiss system
 
-Tip skalası, boşluk, ızgara, renk ve radius tokenları. **Ölçülen** değerler 23 Kasım 2026 taramasından (1440×900, DOM `getComputedStyle`) gelir. **Önerilen** olarak işaretlenenler galeride ölçülmedi, ölçülenlerden türetildi.
+Type scale, spacing, grid, color and radius tokens. **Measured** values come from the 23 November 2026 scan (1440×900, DOM `getComputedStyle`). Values marked **recommended** were not measured in the gallery; they are derived from the measured ones.
 
-Temel ilke: Önce sistem gelir, istisnalar gerekçe ister. Bir değer bu dosyadaki tokenlardan biri değilse, DENETİM'de gerekçesini yaz.
+Core principle: the system comes first, and exceptions need a justification. If a value is not one of the tokens in this file, write its justification in the AUDIT.
 
-## İçindekiler
-1. Tip skalası (φ tabanlı)
-2. Tracking, leading, ağırlık
+## Contents
+1. Type scale (φ-based)
+2. Tracking, leading, weight
 3. Spacing (8px)
-4. Izgara (1440 viewport)
-5. Renk tokenları
-6. Radius, çizgi, gölge
-7. Hazır CSS başlangıç dosyası
-8. Kontrol listesi
+4. Grid (1440 viewport)
+5. Color tokens
+6. Radius, lines, shadows
+7. Ready-made CSS starter file
+8. Checklist
 
 ---
 
-## 1. Tip skalası (φ tabanlı)
+## 1. Type scale (φ-based)
 
-Taban 16px, çarpan φ = 1.618: **16 → 26 → 42 → 68 → 110**. Satır yükseklikleri 4px'in katına yuvarlanır.
+Base 16px, multiplier φ = 1.618: **16 → 26 → 42 → 68 → 110**. Line heights are rounded to multiples of 4px.
 
-| Token | px | Satır (px) | Rol | Ağırlık | Tracking |
+| Token | px | Line (px) | Role | Weight | Tracking |
 |---|---|---|---|---|---|
-| `--text-meta` | 12–13 | 16–20 | Mono metaveri, etiket, ticker | 400 | 0 |
-| `--text-small` | 14 | 20 | Nav, buton, dipnot | 400–500 | 0 |
-| `--text-body` | 16 | 24 | Gövde | 400 | 0 |
-| `--text-body-l` | 18 | 28 | Hero gövdesi | 400 | 0 / -0.01em |
-| `--text-lead` | 26 | 32 | Lead, ikinci katman başlık | 400 | -0.01em |
-| `--text-h2` | 42 | 44–48 | Bölüm başlığı | 500 | -0.02em |
-| `--text-display` | 68 (56–72) | 68 | Hero başlığı | 400 (300–500) | -0.02 / -0.04em |
-| `--text-display-xl` | 110 (96–120) | 104 | Poster başlığı (D şablonu) | 400 | -0.035 / -0.05em |
+| `--text-meta` | 12–13 | 16–20 | Mono metadata, label, ticker | 400 | 0 |
+| `--text-small` | 14 | 20 | Nav, button, footnote | 400–500 | 0 |
+| `--text-body` | 16 | 24 | Body | 400 | 0 |
+| `--text-body-l` | 18 | 28 | Hero body | 400 | 0 / -0.01em |
+| `--text-lead` | 26 | 32 | Lead, second-layer heading | 400 | -0.01em |
+| `--text-h2` | 42 | 44–48 | Section heading | 500 | -0.02em |
+| `--text-display` | 68 (56–72) | 68 | Hero headline | 400 (300–500) | -0.02 / -0.04em |
+| `--text-display-xl` | 110 (96–120) | 104 | Poster headline (template D) | 400 | -0.035 / -0.05em |
 
-`--text-body-l` (18px) φ adımı değil, ama galerideki hero gövdelerinin çoğu 18px (Willow, Ramp, Asimov, Resend). Pratik bir ara adım olarak tutuldu.
+`--text-body-l` (18px) is not a φ step, but most hero body text in the gallery is 18px (Willow, Ramp, Asimov, Resend). It is kept as a practical in-between step.
 
-**Ölçülen hero başlıkları:** 64px kümesi baskın (Linear, Vercel, Spaceflow, Sim, Kernel, Casey, Hyperspell, Ramp, Raycast). φ adımı 68 bu kümenin üst sınırına oturuyor. Poster kümesi 86–120px (Granola 86, Resend 96, Stoa 115, Panta 120).
+**Measured hero headlines:** the 64px cluster dominates (Linear, Vercel, Spaceflow, Sim, Kernel, Casey, Hyperspell, Ramp, Raycast). The φ step 68 sits at the upper edge of this cluster. The poster cluster is 86–120px (Granola 86, Resend 96, Stoa 115, Panta 120).
 
-### Oran kuralı
-display ÷ body oranı **3.3 ile 4.4 arasında** olmalı; hedef **φ³ ≈ 4.24**.
+### Ratio rule
+The display ÷ body ratio should be **between 3.3 and 4.4**; the target is **φ³ ≈ 4.24**.
 
-| Referans | Display / body | Oran |
+| Reference | Display / body | Ratio |
 |---|---|---|
 | Linear | 64 / 15 | 4.27 |
 | Granola | 86.4 / 20 | 4.32 |
@@ -50,18 +50,18 @@ display ÷ body oranı **3.3 ile 4.4 arasında** olmalı; hedef **φ³ ≈ 4.24*
 | Arga Labs | 54 / 16 | 3.38 |
 | Willow | 60 / 18 | 3.33 |
 
-- Poster şablonunda (D) oran 5–6.4'e çıkabilir: Panta 5.0, Resend 5.3, Stoa 6.4.
-- 2.5'in altındaki oranlar ancak hiyerarşiyi renk ya da opaklık taşıyorsa geçerlidir (Parallel 36/26 = 1.38, gri lead; Hyperspell 64/30 = 2.1).
+- In the poster template (D) the ratio can rise to 5–6.4: Panta 5.0, Resend 5.3, Stoa 6.4.
+- Ratios below 2.5 are valid only if color or opacity carries the hierarchy (Parallel 36/26 = 1.38, gray lead; Hyperspell 64/30 = 2.1).
 
-### Mobil (önerilen, 375px)
-Her rol bir φ adımı küçülür: display 68 → 42 (satır 44), display-xl 110 → 68 (satır 64), h2 42 → 26 (satır 32), lead 26 → 20 (satır 28). Body 16px'te kalır.
+### Mobile (recommended, 375px)
+Each role drops one φ step: display 68 → 42 (line 44), display-xl 110 → 68 (line 64), h2 42 → 26 (line 32), lead 26 → 20 (line 28). Body stays at 16px.
 
 ---
 
-## 2. Tracking, leading, ağırlık
+## 2. Tracking, leading, weight
 
-### Tracking (boyuta göre)
-| Boyut | Tracking | Ölçülen |
+### Tracking (by size)
+| Size | Tracking | Measured |
 |---|---|---|
 | ≥ 96px | -0.035 … -0.05em | Stoa -0.035 · Panta -0.035 |
 | 56–95px | -0.02 … -0.04em | Linear -0.022 · Sim -0.025 · Zomma -0.03 · Spaceflow -0.04 · Arga -0.045 · Marengo -0.05 |
@@ -69,52 +69,52 @@ Her rol bir φ adımı küçülür: display 68 → 42 (satır 44), display-xl 11
 | 18–31px | 0 … -0.02em | Willow -0.01 · Kernel -0.013 |
 | ≤ 16px | 0 … +0.02em | Sim +0.0175 |
 | Mono | 0 | — |
-| Büyük harf mono metaveri | 0 … +0.04em | Ramp sayacı, Panta eyebrow |
+| Uppercase mono metadata | 0 … +0.04em | Ramp counter, Panta eyebrow |
 
-- Serif display'de tracking'i yarıya indir (-0.01 / -0.02em): Resend -0.01, Granola -0.02, ProvenMetal -0.02.
-- Display boyutunda pozitif tracking gevşek görünür (Mastra +0.005em). Kullanma.
-- -0.06em sınırdır (Vercel, Hyperspell). Ötesi harfleri yapıştırır.
+- Halve the tracking for serif display (-0.01 / -0.02em): Resend -0.01, Granola -0.02, ProvenMetal -0.02.
+- Positive tracking at display size looks loose (Mastra +0.005em). Do not use it.
+- -0.06em is the limit (Vercel, Hyperspell). Beyond that, letters collide.
 
 ### Leading
-| Rol | Leading | Ölçülen |
+| Role | Leading | Measured |
 |---|---|---|
 | display-xl | 0.94–0.98 | Marengo 0.94 · Panta 0.96 · Stoa 0.98 |
 | display (sans) | 1.0–1.05 | Linear, Vercel, Ramp, Spaceflow 1.0 · Zomma 1.04 |
-| display (serif) | 0.93–1.3 | Granola 0.93 · Resend 1.0 · Cursor 1.25 · Char 1.3 (x-yüksekliğine göre test et; 0.92'nin altına inme) |
+| display (serif) | 0.93–1.3 | Granola 0.93 · Resend 1.0 · Cursor 1.25 · Char 1.3 (test against the x-height; do not go below 0.92) |
 | h2 | 1.05–1.15 | — |
 | lead | 1.25–1.45 | Parallel 1.23 · Kernel 1.25 · Zomma 1.45 |
 | body | 1.5–1.6 | Willow 1.56 · Linear 1.6 · ProvenMetal 1.65 |
 | meta | 1.33–1.5 | — |
 
-### Ağırlık
-- **Display varsayılanı 400.** Light ton için 300 (Zomma, Kernel), ultra light 200 yalnızca serif ve ≥ 64px'te (Balance). 500'ün üstü gerekçe ister.
-- Ara ağırlıklar (450, 480, 510, 550) değişken fontlarda mikro hiyerarşi kurar: Linear 510, Mercury 360/420/480, xAI 450.
-- Body 400, buton 500, mono 400.
-- **Hiyerarşiyi ağırlıkla değil ölçekle kur.** Spaceflow, Stoa, Willow, Ramp ve Sim'de başlık ve gövde aynı ağırlıkta (400); fark yalnızca boyutta.
+### Weight
+- **The display default is 400.** 300 for a light tone (Zomma, Kernel); ultra-light 200 only for serif and at ≥ 64px (Balance). Anything above 500 needs a justification.
+- Intermediate weights (450, 480, 510, 550) build micro-hierarchy in variable fonts: Linear 510, Mercury 360/420/480, xAI 450.
+- Body 400, button 500, mono 400.
+- **Build hierarchy with scale, not weight.** On Spaceflow, Stoa, Willow, Ramp and Sim, the headline and body share the same weight (400); the only difference is size.
 
-### Satır uzunluğu
-- Gövde: 45–75 karakter (`max-width: 60–68ch`).
-- Hero başlığı: 2–3 satır, 5–7 kolon (≈ 526–746px). Ölçülen: Interfere 450, Willow 543, Cua 547, ProvenMetal 560, Spaceflow 584, Char 608, Sim 621, Casey 720, Marengo 747.
-- `text-wrap: balance` başlıkta, `text-wrap: pretty` gövdede.
+### Line length
+- Body: 45–75 characters (`max-width: 60–68ch`).
+- Hero headline: 2–3 lines, 5–7 columns (≈ 526–746px). Measured: Interfere 450, Willow 543, Cua 547, ProvenMetal 560, Spaceflow 584, Char 608, Sim 621, Casey 720, Marengo 747.
+- `text-wrap: balance` on headlines, `text-wrap: pretty` on body text.
 
 ---
 
 ## 3. Spacing (8px)
 
-| Token | px | Kullanım |
+| Token | px | Use |
 |---|---|---|
-| `--space-1` | 4 | İkon–etiket, inline mikro boşluk |
-| `--space-2` | 8 | Buton içi ikon aralığı, sıkı liste |
-| `--space-3` | 16 | Başlık → lead (sıkı), form alanı aralığı |
-| `--space-4` | 24 | Başlık → lead (standart), lead → CTA, gutter |
-| `--space-5` | 32 | Lead → CTA (ferah), kart iç boşluğu |
-| `--space-6` | 48 | Hero metni → ürün ekranı (min), blok arası |
-| `--space-7` | 64 | Logo şeridi üstü, ürün ekranı üstü |
-| `--space-8` | 96 | Bölümler arası (1440) |
-| `--space-9` | 128 | Büyük bölüm arası, poster hero üst boşluğu |
+| `--space-1` | 4 | Icon–label, inline micro spacing |
+| `--space-2` | 8 | Icon gap inside buttons, tight lists |
+| `--space-3` | 16 | Headline → lead (tight), form field spacing |
+| `--space-4` | 24 | Headline → lead (standard), lead → CTA, gutter |
+| `--space-5` | 32 | Lead → CTA (airy), card padding |
+| `--space-6` | 48 | Hero text → product screen (min), between blocks |
+| `--space-7` | 64 | Above the logo strip, above the product screen |
+| `--space-8` | 96 | Between sections (1440) |
+| `--space-9` | 128 | Between large sections, top space of a poster hero |
 
-**Hero iç ritmi (ölçülen):**
-| Referans | Başlık → lead | Lead → CTA |
+**Hero inner rhythm (measured):**
+| Reference | Headline → lead | Lead → CTA |
 |---|---|---|
 | Willow | 24 | 24 |
 | Chronicle Labs | 24 | 32 |
@@ -124,97 +124,97 @@ Her rol bir φ adımı küçülür: display 68 → 42 (satır 44), display-xl 11
 | Parallel | 16 | 16 |
 | Zomma | 36 | 48 |
 
-- Kural: başlık → lead **16–24**, lead → CTA **24–32**. Zomma'nın 36/48'i poster tonunda bilinçli artan ritim (36 = 4px ızgarasında; 8px ızgarası için 32/48 kullan).
-- Izgara dışı ölçülenler (kaçın): Cua 22, Autumn 25, Arga 28.
-- Buton yüksekliği: **40 / 44 / 48**. Yatay iç boşluk 16–24.
-- Kart iç boşluğu: 24 ya da 32.
+- Rule: headline → lead **16–24**, lead → CTA **24–32**. Zomma's 36/48 is a deliberately expanding rhythm in a poster tone (36 is on a 4px grid; for an 8px grid use 32/48).
+- Off-grid measurements (avoid): Cua 22, Autumn 25, Arga 28.
+- Button height: **40 / 44 / 48**. Horizontal padding 16–24.
+- Card padding: 24 or 32.
 
 ---
 
-## 4. Izgara (1440 viewport)
+## 4. Grid (1440 viewport)
 
-| Değer | 1440 |
+| Value | 1440 |
 |---|---|
-| Kolon | 12 |
+| Columns | 12 |
 | Gutter | 24px |
-| Dış kenar | `clamp(24px, 5vw, 96px)` → 72px |
-| İçerik genişliği | 1296px |
-| Kolon genişliği | 86px |
-| Kolon n başlangıcı | 72 + (n − 1) × 110 px |
-| n kolon genişliği | 110n − 24 px (5 → 526, 6 → 636, 7 → 746) |
+| Outer margin | `clamp(24px, 5vw, 96px)` → 72px |
+| Content width | 1296px |
+| Column width | 86px |
+| Start of column n | 72 + (n − 1) × 110 px |
+| Width of n columns | 110n − 24 px (5 → 526, 6 → 636, 7 → 746) |
 
-**Ölçülen sol kenarlar:** 16 (B&B) · 24 (Vercel) · 32 (Asimov) · ≈48 (Linear) · 63–64 (Cursor, Ramp, Kernel) · 72–77 (ProvenMetal, Parallel, Willow, Arga, Cua) · 88–133 (Panta, Interfere, Granola, Zomma). 64–96 aralığı çoğunluk. 16–32 yalnızca E şablonunda ya da çok sade sayfalarda.
+**Measured left margins:** 16 (B&B) · 24 (Vercel) · 32 (Asimov) · ≈48 (Linear) · 63–64 (Cursor, Ramp, Kernel) · 72–77 (ProvenMetal, Parallel, Willow, Arga, Cua) · 88–133 (Panta, Interfere, Granola, Zomma). The 64–96 range is the majority. 16–32 only in template E or on very minimal pages.
 
-### Şablona göre yerleşim
-| Şablon | Yerleşim |
+### Placement by template
+| Template | Placement |
 |---|---|
-| A1 | Metin kolon 1–5, ürün 6–12 (φ bölünmesi 7+5) ya da 1–6 / 7–12 |
-| A2 | Başlık 1–6; açıklama + CTA 8–12, başlık tabanına hizalı; altta ürün 1–12 |
-| B | Başlık 1–5; nesne 6–12 ya da merkezde, first screen alanının %25–45'i |
-| C | Tam bleed fotoğraf; metin 1–5 (sol alt) ya da 3–10 (ortalanmış üst) |
-| D | Başlık 1–9 … 1–12, 2–4 satır |
-| E | Nav 1–2, içerik 4–9 |
+| A1 | Text columns 1–5, product 6–12 (φ split 7+5) or 1–6 / 7–12 |
+| A2 | Headline 1–6; description + CTA 8–12, aligned to the headline's baseline; product 1–12 below |
+| B | Headline 1–5; object 6–12 or centered, 25–45% of the first-screen area |
+| C | Full-bleed photo; text 1–5 (bottom left) or 3–10 (centered top) |
+| D | Headline 1–9 … 1–12, 2–4 lines |
+| E | Nav 1–2, content 4–9 |
 
-### Dikey yerleşim
-- Hero başlığının üst kenarı viewport yüksekliğinin **%20–32'sinde**. Ölçülen medyan %27: Spaceflow 228px, Linear 242, Panta 242, Sim 245, Asimov 245, Marengo 248, Kernel 274, Zomma 289, Willow 291 (900px'te). Arga 153px (%17) aralığın üstünde kalıyor.
-- Alt yaslı varyant (B/C): metin bloğu alt üçte birde (Chronicle 636px, Balance 520px). Bu durumda 1. bakış görsele aittir; ön-kod bloğunda böyle yaz.
+### Vertical placement
+- The top edge of the hero headline sits at **20–32%** of the viewport height. Measured median 27%: Spaceflow 228px, Linear 242, Panta 242, Sim 245, Asimov 245, Marengo 248, Kernel 274, Zomma 289, Willow 291 (at 900px). Arga at 153px (17%) sits above the range.
+- Bottom-aligned variant (B/C): the text block is in the bottom third (Chronicle 636px, Balance 520px). In that case the 1st look belongs to the image; write it that way in the pre-code block.
 
-### Breakpoint'ler (önerilen)
-| Viewport | Kolon | Gutter | Kenar |
+### Breakpoints (recommended)
+| Viewport | Columns | Gutter | Margin |
 |---|---|---|---|
 | ≥ 1440 | 12 | 24 | 72–96 |
 | 1024 | 12 | 20 | 40 |
 | 768 | 8 | 16 | 32 |
 | 375 | 4 | 16 | 20 |
 
-A1 ve B 768'in altında dikey yığına döner: önce 1. bakış öğesi. B'de mobilde nesne başlığın altına iner ve göz yolu 1 başlık → 2 nesne → 3 CTA olur. Bunu ön-kod bloğuna not et.
+Below 768, A1 and B collapse into a vertical stack: the 1st-look element first. In B on mobile, the object moves below the headline and the eye path becomes 1 headline → 2 object → 3 CTA. Note this in the pre-code block.
 
 ---
 
-## 5. Renk tokenları
+## 5. Color tokens
 
-Yapı sabittir; değerler `type-and-color.md` §6'daki kurallardan ve paletlerden seçilir.
+The structure is fixed; values are chosen from the rules in `type-and-color.md` §6 and the palettes in §7.
 
-| Token | Rol | Kural |
+| Token | Role | Rule |
 |---|---|---|
-| `--bg` | Zemin | Sıcak nötr: RGB kanal farkı ≤ 12, R ≥ G ≥ B |
-| `--fg` | Ana metin | Açık temada #111–#25221D; koyu temada #EDEDED–#F7F8F8 ya da krem |
-| `--fg-muted` | İkincil metin | `--fg` %55–65 opaklık ya da sabit gri; kontrast ≥ 4.5:1 |
-| `--line` | Ayırıcı çizgi | `--fg` %8–12 opaklık, 1px |
-| `--accent` | Birincil CTA | Tek doygun renk; başka hiçbir yerde kullanılmaz (istisna: B nesnesi, başlıkta tek kelime) |
-| `--accent-fg` | CTA metni | `--accent` üzerinde ≥ 4.5:1 |
+| `--bg` | Background | Warm neutral: RGB channel spread ≤ 12, R ≥ G ≥ B |
+| `--fg` | Main text | #111–#25221D in light themes; #EDEDED–#F7F8F8 or cream in dark themes |
+| `--fg-muted` | Secondary text | `--fg` at 55–65% opacity or a fixed gray; contrast ≥ 4.5:1 |
+| `--line` | Divider line | `--fg` at 8–12% opacity, 1px |
+| `--accent` | Primary CTA | The single saturated color; used nowhere else (exceptions: the B object, a single word in the headline) |
+| `--accent-fg` | CTA text | ≥ 4.5:1 on `--accent` |
 
 ---
 
-## 6. Radius, çizgi, gölge
+## 6. Radius, lines, shadows
 
-| Token | Değer | Ölçülen |
+| Token | Value | Measured |
 |---|---|---|
 | `--radius-0` | 0 | Kernel, ProvenMetal, Willow, Asimov |
 | `--radius-1` | 2px | Marengo (2.7) |
 | `--radius-2` | 4px | Stripe, Parallel, tash, Chronicle |
 | `--radius-3` | 6px | Vercel, Ramp, AgentMail |
-| `--radius-pill` | 999px | Yalnızca birincil CTA (Spaceflow, Granola, Char, Zomma) |
+| `--radius-pill` | 999px | Primary CTA only (Spaceflow, Granola, Char, Zomma) |
 
-- Tüm bileşenler (kart, input, rozet, ikincil buton) için **tek bir sistem radius'u** seç: 0, 2, 4 ya da 6.
-- Pill yalnızca birincil CTA'da kullanılabilir (opsiyonel).
-- 12px ve üstü radius'u ikiden fazla bileşen tipinde birlikte kullanma ("soft everything").
-- Çizgi: 1px, `--line`. Kart ayırmak için gölge yerine çizgi.
-- Gölge: yok ya da tek, sabit, düşük opaklıkta (`0 1px 2px rgb(0 0 0 / 0.06)`). Glow, renkli gölge ve glassmorphism yok.
+- Pick **one system radius** for all components (card, input, badge, secondary button): 0, 2, 4 or 6.
+- A pill may be used only on the primary CTA (optional).
+- Do not use a radius of 12px or more on more than two component types together ("soft everything").
+- Lines: 1px, `--line`. Use lines instead of shadows to separate cards.
+- Shadows: none, or a single fixed low-opacity one (`0 1px 2px rgb(0 0 0 / 0.06)`). No glow, colored shadows or glassmorphism.
 
 ---
 
-## 7. Hazır CSS başlangıç dosyası
+## 7. Ready-made CSS starter file
 
-Fontları `type-and-color.md` §2–4'ten seç ve gerekçesini SİSTEM bloğuna yaz. Aşağıdaki değerler A şablonu ve açık sıcak tema içindir.
+Choose fonts from `type-and-color.md` §2–4 and write the rationale in the SYSTEM block. The values below are for template A and a light warm theme.
 
 ```css
 :root {
-  /* Fontlar — type-and-color.md'den seç (en fazla 2 aile) */
-  --font-1: "FONT_1", ui-sans-serif, sans-serif;   /* display + gövde */
-  --font-2: "FONT_2", ui-monospace, monospace;     /* mono sistem katmanı ya da gövde */
+  /* Fonts — choose from type-and-color.md (at most 2 families) */
+  --font-1: "FONT_1", ui-sans-serif, sans-serif;   /* display + body */
+  --font-2: "FONT_2", ui-monospace, monospace;     /* mono system layer or body */
 
-  /* Tip skalası (φ) */
+  /* Type scale (φ) */
   --text-meta: 12px;   --lh-meta: 16px;
   --text-small: 14px;  --lh-small: 20px;
   --text-body: 16px;   --lh-body: 24px;
@@ -228,23 +228,23 @@ Fontları `type-and-color.md` §2–4'ten seç ve gerekçesini SİSTEM bloğuna 
   --space-1: 4px;  --space-2: 8px;  --space-3: 16px; --space-4: 24px;
   --space-5: 32px; --space-6: 48px; --space-7: 64px; --space-8: 96px; --space-9: 128px;
 
-  /* Izgara */
+  /* Grid */
   --columns: 12;
   --gutter: 24px;
   --margin: clamp(24px, 5vw, 96px);
   --container: 1440px;
 
-  /* Renk — type-and-color.md §6 paletlerinden */
+  /* Color — from the palettes in type-and-color.md §7 */
   --bg: #F9F7F2;
   --fg: #141410;
   --fg-muted: rgb(20 20 16 / 0.6);
   --line: rgb(20 20 16 / 0.1);
-  --accent: #1F5C3A;      /* yalnızca birincil CTA */
+  --accent: #1F5C3A;      /* primary CTA only */
   --accent-fg: #FFFFFF;
 
   /* Radius */
-  --radius: 4px;          /* tek sistem radius'u: 0 | 2 | 4 | 6 */
-  --radius-pill: 999px;   /* yalnızca birincil CTA */
+  --radius: 4px;          /* one system radius: 0 | 2 | 4 | 6 */
+  --radius-pill: 999px;   /* primary CTA only */
 }
 
 * { box-sizing: border-box; }
@@ -280,26 +280,30 @@ body {
 }
 .btn--primary { background: var(--accent); color: var(--accent-fg); border-color: transparent; }
 
-/* A1 hero örneği */
+/* A1 hero example */
 .hero { padding-block: clamp(var(--space-8), 22vh, 240px) var(--space-8); }
 .hero__text { grid-column: 1 / span 5; }
 .hero__product { grid-column: 7 / span 6; opacity: 0.85; }
 .hero__cta { margin-top: var(--space-5); display: flex; gap: var(--space-3); }
 
 @media (max-width: 767px) {
-  :root { --text-display: 42px; --lh-display: 44px; --text-display-xl: 68px; --lh-display-xl: 64px; --text-lead: 20px; --lh-lead: 28px; --gutter: 16px; }
+  :root {
+    --text-display: 42px; --lh-display: 44px; --text-display-xl: 68px; --lh-display-xl: 64px;
+    --text-h2: 26px; --lh-h2: 32px; --text-lead: 20px; --lh-lead: 28px;
+    --columns: 4; --gutter: 16px; --margin: 20px;
+  }
   .hero__text, .hero__product { grid-column: 1 / -1; }
 }
 ```
 
 ---
 
-## 8. Kontrol listesi
+## 8. Checklist
 
-- [ ] Tüm font boyutları skala tokenlarından biri (ya da gerekçeli).
-- [ ] Display/body oranı 3.3–4.4 (D şablonunda ≤ 6.4).
-- [ ] Display ağırlığı 300–500; tracking boyut tablosuna uygun ve negatif.
-- [ ] Hero'daki bütün dikey boşluklar 8px katı; başlık → lead 16–24, lead → CTA 24–32.
-- [ ] Başlık 5–7 kolon, 2–3 satır; üst kenarı viewport'un %20–32'sinde.
-- [ ] Tek sistem radius'u; pill yalnızca birincil CTA'da.
-- [ ] Renkler token yapısında: bg, fg, muted, line, accent. Accent yalnızca birincil CTA'da.
+- [ ] Every font size is one of the scale tokens (or justified).
+- [ ] Display/body ratio 3.3–4.4 (≤ 6.4 in template D).
+- [ ] Display weight 300–500; tracking matches the size table and is negative.
+- [ ] All vertical spacing in the hero is a multiple of 8px; headline → lead 16–24, lead → CTA 24–32.
+- [ ] Headline 5–7 columns, 2–3 lines; its top edge at 20–32% of the viewport.
+- [ ] One system radius; pill only on the primary CTA.
+- [ ] Colors follow the token structure: bg, fg, muted, line, accent. Accent only on the primary CTA.

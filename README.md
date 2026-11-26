@@ -32,7 +32,7 @@ Landing pages, heroes, marketing and product sites, portfolios, any UI screen: b
 ## Protocol
 
 1. **Eye path.** Pick a template (A–E), write the 1st / 2nd / 3rd focus with numbers, name the element that competes with the 1st and how it is suppressed. No code before this.
-2. **System.** Type scale on φ, spacing on a 4/8 scale, 12-column grid at 1440, at most 2 fonts, one saturated color for one action.
+2. **System.** Type scale on φ, spacing in multiples of 8px (with a 4px micro step), 12-column grid at 1440, at most 2 fonts, one saturated color for one action.
 3. **Code.**
 4. **Audit.** Run the first-screen script in the browser console, or the static grep commands. A flag means "justify it", not "reject it".
 

@@ -1,135 +1,135 @@
 # Anti-AI
 
-AI üretimi arayüzlerde tekrar eden kalıpların ölçülebilir tanımları, tespit yöntemi ve düzeltmeleri. Kanıtlar 23 Kasım 2026 taramasından (yaklaşık 60 YC sitesi ve 20 stüdyo/altın standart, 1440×900).
+Measurable definitions, detection methods and fixes for the patterns that recur in AI-generated interfaces. The evidence comes from the 23 November 2026 scan (roughly 60 YC sites and 20 studio/gold-standard sites, 1440×900).
 
-## İçindekiler
-0. Temel ilke: bayrak = gerekçe zorunluluğu
-1. Çekirdek yasaklar (ölçülebilir)
-2. Taramada gözlenen yeni kalıplar
-3. İzleme listesi
-4. Kod öncesi öz-kontrol
-5. Denetim scripti (tarayıcı)
-6. Statik denetim (tarayıcı yoksa)
-7. DENETİM bloğu ve gerekçe formatı
-8. Anti-çiftler
-
----
-
-## 0. Temel ilke: bayrak = gerekçe zorunluluğu
-
-Bir bayrak otomatik ret anlamına gelmez; **gerekçe yazma zorunluluğu** anlamına gelir. Linear "yasaklı font" bayrağı alır, Mercury "ortalanmış başlık" bayrağı alır. Fark, ikisinin de bilinçli bir kararla açıklanabilmesi.
-
-Geçerli gerekçe şunlardan birine dayanır:
-- Kullanıcının açık talebi ya da marka sistemi (kurumsal font, logo rengi).
-- Şablon izni (ör. C şablonunda ortalanmış başlık).
-- Galeriden somut bir kural ve onu taşıyan ayar ("Inter, ama 300 ağırlık + küçük harf + wordmark imza öğe; Kernel kuralı").
-
-Geçersiz gerekçeler: "modern duruyor", "trend", "kullanıcı beğenir", "daha premium".
-
-Gerekçe yazamıyorsan düzelt.
+## Contents
+0. Core principle: flag = justification required
+1. Core bans (measurable)
+2. New patterns observed in the scan
+3. Watch list
+4. Pre-code self-check
+5. Audit script (browser)
+6. Static audit (no browser)
+7. AUDIT block and justification format
+8. Anti-pairs
 
 ---
 
-## 1. Çekirdek yasaklar (ölçülebilir)
+## 0. Core principle: flag = justification required
 
-### 1.1 Yasaklı fontlar: Inter / Poppins / Montserrat
-- **Tanım:** Herhangi bir görünür metnin computed `font-family` ilk değeri `/^(inter|poppins|montserrat)/i` ile eşleşiyor (Inter Display, InterVariable, Inter Tight dahil).
-- **Tespit:** Script → `yasaklı font`. Statik → §6 grep 1.
-- **Neden:** En yaygın şablon ve AI varsayılanları. Corvera (Poppins 600, ortalanmış), Wato (Inter + Inter Display, ortalanmış) ve Waybill (Inter + 2 font daha) ayarsız hallerini gösteriyor.
-- **Not:** Linear, Panta, Kernel ve Marengo Inter kullanıyor. Kurtaran ayar: 300/510 ağırlık, -0.02/-0.05em tracking, imza öğe. Agent bunu güvenilir şekilde tutturamadığı için yasak.
-- **Düzeltme:** `type-and-color.md` §2'deki tariflerden birini seç; §4'teki alternatiflerden font al.
+A flag does not mean automatic rejection; it means **a justification must be written**. Linear gets a "banned font" flag, Mercury gets a "centered headline" flag. The difference is that both can be explained by a deliberate decision.
 
-### 1.2 Mor/indigo gradient
-- **Tanım:** First screen'de gradient'te, glow'da ya da buton/link dolgusunda ton 230–290°, HSL doygunluğu > %35.
-- **Tespit:** Script → `mor/indigo × n` (yalnızca `rgb()/rgba()` okur). Statik → §6 grep 2–3.
-- **Kanıt:** Autumn (mor-macenta panel + mor CTA), Vela (#737DE7 CTA + lavanta yıkama), Traceforce (indigo glow), Unisson (pembe-mor gradient). Sınırda: Mercury #5266EB (232°), Axiom #526FFF (≈230°).
-- **Neden Stripe yapabiliyor:** Gradient'i yıllardır sahiplenilmiş bir marka varlığı. Agent bunu kopyalayamaz, okur.
-- **Düzeltme:** Gradient'i kaldır, düz yüzey kullan. Aksanı `type-and-color.md` §6.7'ye göre seç. Marka rengi morsa yalnızca düz CTA rengi olarak kullan ve gerekçe yaz.
+A valid justification rests on one of these:
+- The user's explicit request or brand system (corporate font, logo color).
+- Template permission (e.g. a centered headline in template C).
+- A concrete rule from the gallery and the tuning that carries it ("Inter, but 300 weight + lowercase + a wordmark signature element; the Kernel rule").
 
-### 1.3 Üç eşit kart
-- **Tanım:** Aynı genişlikte, aynı iç yapıda (ikon + başlık + metin ya da sayı + etiket) 3 kartın yan yana dizilmesi. Varyantları: 3 eşit stat kartı (Oximy), 3 demo kartı (xAI).
-- **Tespit:** Statik → §6 grep 7 (`grid-cols-3`, `repeat(3, 1fr)`). Görsel kontrol.
-- **İzinli:** İçerik türü ve boyutu farklıysa (ör. biri büyük ürün ekranı, ikisi küçük sayı).
-- **Düzeltme:** Asimetrik bölünme (8+4, 7+5), numaralı liste, ya da tek büyük kanıt + yan liste.
+Invalid justifications: "looks modern", "trendy", "users will like it", "more premium".
 
-### 1.4 Tracked all-caps etiket
-- **Tanım:** `text-transform: uppercase` + `letter-spacing` > 0.05em, **sans-serif** fontta.
-- **Tespit:** Script → `tracked caps (sans) × n`. Statik → §6 grep 4.
-- **Kanıt:** Waybill (sayfa genelinde 60 öğe), Chronicle ("BACKED BY Y COMBINATOR" etiketi), Autumn ve Hyperspell (nav).
-- **İzinli:** Mono fontta, tracking 0…+0.04em, bir bölgede tek satır metaveri (Panta eyebrow, Ramp sayacı, Stoa ticker'ı).
-- **Düzeltme:** Sentence case yap ya da mono metaveriye çevir. Bölüm başlıklarının üstündeki eyebrow'u kaldır ya da numaraya çevir ("01 — Mutabakat").
-
-### 1.5 Ortalanmış generic hero
-- **Tanım:** Şu 5 öğeden ≥ 3'ü birlikte varsa: (1) başlığın üstünde rozet/hap, (2) ortalanmış başlık, (3) ortalanmış gri gövde, (4) eşit ağırlıkta 2 CTA, (5) logo duvarı ya da glow.
-- **Tespit:** Script → `ortalanmış başlık` (+ diğer öğeleri görsel say). Statik → §6 grep 5.
-- **Kanıt:** Traceforce (4/5), Corvera (4/5), Vela (4/5), Waybill (4/5), Comp AI (4/5), Wato (3/5).
-- **İzinli:** C şablonu (anlatı fotoğrafı: Mercury, Balance) ya da tek bir ≥ 96px display ifadesi (Stoa).
-- **Düzeltme:** Başlığı sola al (A ya da D şablonu), rozeti CTA yanına/alt şeride indir, ikinci CTA'yı metin linkine düşür, glow'u kaldır.
-
-### 1.6 Her yerde yumuşak radius
-- **Tanım:** 12px ve üstü radius'un 2'den fazla bileşen tipinde (kart, input, rozet, buton, görsel) birlikte kullanılması; ya da dekoratif blob şekiller.
-- **Tespit:** Statik → §6 grep 6 (sayım). Görsel kontrol.
-- **Kanıt:** Unisson (blob + yuvarlak buton + gradient daire), Traceforce (1600px haplar).
-- **İzinli:** Pill yalnızca birincil CTA'da (Spaceflow, Granola, Char).
-- **Düzeltme:** Tek sistem radius'u seç (0/2/4/6); bkz. `swiss-system.md` §6.
-
-### 1.7 Sahte sosyal kanıt
-- **Tanım:** First screen'de yıldız/puan rozeti; isimsiz ya da kaynaksız testimonial; kaynaksız yuvarlak sayılar ("10,000+ teams"); "Trusted by" etiketli gri logo duvarı.
-- **Tespit:** Görsel/metin kontrol: "★", "4.9/5", "Trusted by", "Loved by", "+" ile biten yuvarlak sayılar.
-- **Kanıt:** Comp AI (G2 4.9/5 rozeti hero'nun ilk öğesi), Corvera (logo duvarı + italik testimonial, CTA'dan büyük).
-- **Düzeltme:** Canlı ya da kesin veri (Stripe GDP sayacı, Ramp ödeme yüzdesi, Stoa fiyat ticker'ı, HUD "8,526,902 task runs"), gerçek ürün ekranı, ya da etiketsiz siyah logo satırı (B&B).
+If you cannot write a justification, fix it.
 
 ---
 
-## 2. Taramada gözlenen yeni kalıplar
+## 1. Core bans (measurable)
 
-| # | Kalıp | Ölçülebilir tanım | Kanıt | Düzeltme |
+### 1.1 Banned fonts: Inter / Poppins / Montserrat
+- **Definition:** The first value of the computed `font-family` of any visible text matches `/^(inter|poppins|montserrat)/i` (Inter Display, InterVariable and Inter Tight included).
+- **Detection:** Script → `banned font`. Static → §6 grep 1.
+- **Why:** The most common template and AI defaults. Corvera (Poppins 600, centered), Wato (Inter + Inter Display, centered) and Waybill (Inter + 2 more fonts) show them untuned.
+- **Note:** Linear, Panta, Kernel and Marengo use Inter. The tuning that saves them: 300/510 weight, -0.02/-0.05em tracking, a signature element. It is banned because an agent cannot hit this reliably.
+- **Fix:** Pick one of the recipes in `type-and-color.md` §2; take a font from the alternatives in §4.
+
+### 1.2 Purple/indigo gradient
+- **Definition:** On the first screen, a hue of 230–290° with HSL saturation > 35% in a gradient, a glow or a button/link fill.
+- **Detection:** Script → `purple/indigo × n` (reads only `rgb()/rgba()`). Static → §6 greps 2–3.
+- **Evidence:** Autumn (purple-magenta panel + purple CTA), Vela (#737DE7 CTA + lavender wash), Traceforce (indigo glow), Unisson (pink-purple gradient). Borderline: Mercury #5266EB (232°), Axiom #526FFF (≈230°).
+- **Why Stripe can do it:** The gradient is a brand asset owned for years. An agent cannot copy it; it reads it.
+- **Fix:** Remove the gradient and use a flat surface. Pick the accent according to `type-and-color.md` §6.7. If the brand color is purple, use it only as a flat CTA color and write a justification.
+
+### 1.3 Three equal cards
+- **Definition:** 3 cards of the same width and the same inner structure (icon + heading + text, or number + label) placed side by side. Variants: 3 equal stat cards (Oximy), 3 demo cards (xAI).
+- **Detection:** Static → §6 grep 7 (`grid-cols-3`, `repeat(3, 1fr)`). Visual check.
+- **Allowed:** When the content type and size differ (e.g. one large product screen and two small numbers).
+- **Fix:** An asymmetric split (8+4, 7+5), a numbered list, or one large proof + a side list.
+
+### 1.4 Tracked all-caps labels
+- **Definition:** `text-transform: uppercase` + `letter-spacing` > 0.05em, in a **sans-serif** font.
+- **Detection:** Script → `tracked caps (sans) × n`. Static → §6 grep 4.
+- **Evidence:** Waybill (60 elements across the page), Chronicle (the "BACKED BY Y COMBINATOR" label), Autumn and Hyperspell (nav).
+- **Allowed:** In a mono font, tracking 0…+0.04em, one line of metadata per region (Panta eyebrow, Ramp counter, Stoa ticker).
+- **Fix:** Switch to sentence case or convert it to mono metadata. Remove the eyebrow above section headings or turn it into a number ("01 — Reconciliation").
+
+### 1.5 Centered generic hero
+- **Definition:** ≥ 3 of these 5 elements appear together: (1) a badge/pill above the headline, (2) a centered headline, (3) centered gray body text, (4) 2 CTAs of equal weight, (5) a logo wall or glow.
+- **Detection:** Script → `centered headline` (count the other elements visually). Static → §6 grep 5.
+- **Evidence:** Traceforce (4/5), Corvera (4/5), Vela (4/5), Waybill (4/5), Comp AI (4/5), Wato (3/5).
+- **Allowed:** Template C (narrative photo: Mercury, Balance) or a single ≥ 96px display phrase (Stoa).
+- **Fix:** Move the headline to the left (template A or D), move the badge next to the CTA or to the bottom strip, demote the second CTA to a text link, remove the glow.
+
+### 1.6 Soft radius everywhere
+- **Definition:** A radius of 12px or more used together on more than 2 component types (card, input, badge, button, image); or decorative blob shapes.
+- **Detection:** Static → §6 grep 6 (count). Visual check.
+- **Evidence:** Unisson (blob + rounded button + gradient circle), Traceforce (1600px pills).
+- **Allowed:** A pill only on the primary CTA (Spaceflow, Granola, Char).
+- **Fix:** Pick one system radius (0/2/4/6); see `swiss-system.md` §6.
+
+### 1.7 Fake social proof
+- **Definition:** A star/rating badge on the first screen; an anonymous or unsourced testimonial; unsourced round numbers ("10,000+ teams"); a gray logo wall labeled "Trusted by".
+- **Detection:** Visual/text check: "★", "4.9/5", "Trusted by", "Loved by", round numbers ending in "+".
+- **Evidence:** Comp AI (a G2 4.9/5 badge as the hero's first element), Corvera (logo wall + italic testimonial, larger than the CTA).
+- **Fix:** Live or exact data (Stripe's GDP counter, Ramp's payment percentage, Stoa's price ticker, HUD's "8,526,902 task runs"), a real product screen, or an unlabeled black logo row (B&B).
+
+---
+
+## 2. New patterns observed in the scan
+
+| # | Pattern | Measurable definition | Evidence | Fix |
 |---|---|---|---|---|
-| 2.1 | Başlık üstünde "Backed by YC" rozeti | Hero'nun ilk öğesi bir yatırımcı rozeti | Taranan YC sitelerinin yaklaşık üçte birinde; iyi ve kötü sitelerde | CTA yanına ya da alt şeride, 12–13px mono (Asimov, Stoa) |
-| 2.2 | Title Case başlık | Başlıkta 3+ kelime büyük harfle başlıyor | Traceforce, Chronicle, Marengo | Sentence case |
-| 2.3 | Ürün arkasında glow | Ürün ekranı ya da başlığın arkasında radial gradient/blur, ton fark etmez | Traceforce (mor), Waybill ve Axiom (mavi) | Glow'u kaldır; ürünü düz zeminde başlığa yakın koy (Linear) |
-| 2.4 | Gradient dolgulu CTA | Butonda `background-image` gradient | Hyperspell, Unisson | Düz `--accent` |
-| 2.5 | Başlık öncesi gürültü yığını | Duyuru şeridi + "New" hapı + rozet: 2'si ya da 3'ü birlikte | Sim, Mastra | En fazla birini bırak |
-| 2.6 | Ağır display + pozitif/sıfır tracking | Display ≥ 48px, ağırlık ≥ 600 ya da tracking ≥ 0 | Vela (Georgia 700), Waybill (700), Traceforce (500, normal) | 400–500 ağırlık, -0.02…-0.04em |
-| 2.7 | Yedek font sızıntısı | Görünür bir öğede computed font `sans-serif`, `ui-sans-serif`, `system-ui`, SF Pro, Roboto, Arial | Chronicle ve Wato (buton), Char (buton), Spaceflow (buton) | Font'u butonlara da uygula; `font: inherit` |
-| 2.8 | Trial font production'da | Font adında "Trial" geçiyor | Chronicle (Kalice Trial), ProvenMetal (Rhetorik Serif Trial) | Lisans al ya da alternatif seç |
-| 2.9 | Kelime dönüşü | Başlıkta animasyonla değişen kelime | Corvera, Stoa | Tek, sabit başlık |
-| 2.10 | Eşit ağırlıkta çift CTA | İki dolu buton yan yana | Traceforce, Casey (yeşil + pembe) | İkincisi çerçeveli ya da metin linki |
+| 2.1 | "Backed by YC" badge above the headline | The hero's first element is an investor badge | On roughly a third of the YC sites scanned; on both good and bad sites | Next to the CTA or in the bottom strip, 12–13px mono (Asimov, Stoa) |
+| 2.2 | Title Case headline | 3+ words in the headline start with a capital | Traceforce, Chronicle, Marengo | Sentence case |
+| 2.3 | Glow behind the product | Radial gradient/blur behind the product screen or headline, in any hue | Traceforce (purple), Waybill and Axiom (blue) | Remove the glow; place the product on a flat background close to the headline (Linear) |
+| 2.4 | Gradient-filled CTA | A gradient `background-image` on a button | Hyperspell, Unisson | Flat `--accent` |
+| 2.5 | Pre-headline noise stack | Announcement bar + "New" pill + badge: 2 or 3 of them together | Sim, Mastra | Keep at most one |
+| 2.6 | Heavy display + positive/zero tracking | Display ≥ 48px with weight ≥ 600 or tracking ≥ 0 | Vela (Georgia 700), Waybill (700), Traceforce (500, normal) | 400–500 weight, -0.02…-0.04em |
+| 2.7 | Fallback font leak | The computed font of a visible element is `sans-serif`, `ui-sans-serif`, `system-ui`, SF Pro, Roboto or Arial | Chronicle and Wato (button), Char (button), Spaceflow (button) | Apply the font to buttons too; `font: inherit` |
+| 2.8 | Trial font in production | The font name contains "Trial" | Chronicle (Kalice Trial), ProvenMetal (Rhetorik Serif Trial) | Buy a license or choose an alternative |
+| 2.9 | Rotating word | A word in the headline that changes through animation | Corvera, Stoa | A single, fixed headline |
+| 2.10 | Equal-weight CTA pair | Two filled buttons side by side | Traceforce, Casey (green + pink) | Make the second one outlined or a text link |
 
 ---
 
-## 3. İzleme listesi
+## 3. Watch list
 
-Yasak değil, ama seçilirse SİSTEM ya da DENETİM bloğunda gerekçe istenir.
+Not banned, but if chosen, a justification is required in the SYSTEM or AUDIT block.
 
-- **Geist / Geist Mono:** Font ölçümü yapılan yaklaşık 50 sitenin 13'ünde var. "Yeni Inter" olma yolunda.
-- **Outfit, Manrope, DM Sans, Plus Jakarta Sans, Space Grotesk, Sora:** Şablon varsayılanı riski (ilk ikisi galeride zayıf örneklerde görüldü).
-- **Pastel blur zemin:** Mor olmasa da aynı ailenin üyesi (Zomma'da sınırda).
-- **Duyuru şeridi:** Tek başına yasak değil, ama başlıktan önce okunuyorsa rakiptir (bkz. `eye-path.md` §5).
-- **Mavi CTA'lar 220–230°:** Mor aralığının hemen dışında; indigo algısı verebilir (Axiom #526FFF).
-
----
-
-## 4. Kod öncesi öz-kontrol
-
-Kod yazmadan önce SİSTEM bloğunu bu listeye göre kontrol et:
-
-- [ ] Fontlar yasak listesinde değil; izleme listesindeyse gerekçe hazır.
-- [ ] En fazla 2 aile.
-- [ ] Display ağırlığı 300–500, tracking negatif.
-- [ ] Başlık sentence case, sabit (dönen kelime yok).
-- [ ] Şablon C değilse başlık sola hizalı (ya da D'de ≥ 96px tek ifade).
-- [ ] Rozet/duyuru/hap: en fazla bir tane ve başlığın üstünde değil.
-- [ ] Tek doygun renk; 230–290° değil.
-- [ ] Gradient yok (fotoğraf hariç); glow yok.
-- [ ] 3 eşit kart yok; tek sistem radius'u.
-- [ ] Kanıt: gerçek ürün ya da kesin sayı; yıldız rozeti ve "Trusted by" yok.
+- **Geist / Geist Mono:** Present on 13 of the roughly 50 sites whose fonts were measured. On its way to becoming "the new Inter".
+- **Outfit, Manrope, DM Sans, Plus Jakarta Sans, Space Grotesk, Sora:** Template-default risk (the first two were seen on weak examples in the gallery).
+- **Pastel blur background:** A member of the same family even when not purple (borderline on Zomma).
+- **Announcement bar:** Not banned on its own, but a competitor if it is read before the headline (see `eye-path.md` §5).
+- **Blue CTAs at 220–230°:** Just at the edge of the purple range; they can read as indigo (Axiom #526FFF).
 
 ---
 
-## 5. Denetim scripti (tarayıcı)
+## 4. Pre-code self-check
 
-Kod sonrası, tarayıcı konsolunda 1440×900 viewport'ta çalıştır. Script, galerideki ölçümlerde kullanılan yöntemin sadeleştirilmiş halidir.
+Before writing code, check the SYSTEM block against this list:
+
+- [ ] The fonts are not on the banned list; if one is on the watch list, the justification is ready.
+- [ ] At most 2 families.
+- [ ] Display weight 300–500, negative tracking.
+- [ ] The headline is in sentence case and fixed (no rotating word).
+- [ ] Unless the template is C, the headline is left-aligned (or a single ≥ 96px phrase in D).
+- [ ] Badge/announcement/pill: at most one, and not above the headline.
+- [ ] A single saturated color; not 230–290°.
+- [ ] No gradient (except photos); no glow.
+- [ ] No three equal cards; one system radius.
+- [ ] Proof: a real product or an exact number; no star badge and no "Trusted by".
+
+---
+
+## 5. Audit script (browser)
+
+After coding, run it in the browser console at a 1440×900 viewport. The script is a simplified version of the method used for the gallery measurements.
 
 ```js
 // agents-eye · first-screen audit
@@ -143,13 +143,16 @@ Kod sonrası, tarayıcı konsolunda 1440×900 viewport'ta çalıştır. Script, 
   const fonts = [...new Set(leaves.map(e => fam(getComputedStyle(e))))];
   const h = leaves.map(e => [e, parseFloat(getComputedStyle(e).fontSize)]).sort((a, b) => b[1] - a[1])[0]?.[0];
   const hs = h && getComputedStyle(h), hr = h && h.getBoundingClientRect();
-  const centered = hr && Math.abs(hr.left + hr.width / 2 - innerWidth / 2) < 40 && hr.width < innerWidth * 0.8;
+  // centered: text-align center, or a narrow box centered in the viewport
+  const centered = !!hr && (hs.textAlign === 'center' ||
+    (Math.abs(hr.left + hr.width / 2 - innerWidth / 2) < 40 && hr.width < innerWidth * 0.8));
   const trackedCapsSans = leaves.filter(e => { const s = getComputedStyle(e);
     return s.textTransform === 'uppercase' && parseFloat(s.letterSpacing) / parseFloat(s.fontSize) > 0.05 && !/mono/i.test(s.fontFamily); }).length;
   const gradients = [...document.querySelectorAll('body *')].filter(e =>
     vis(e) && e.getBoundingClientRect().top < innerHeight && /gradient/.test(getComputedStyle(e).backgroundImage)).length;
   const trackingEm = hs ? (parseFloat(hs.letterSpacing) || 0) / parseFloat(hs.fontSize) : 0;
-  // mor/indigo: gradient'lerde ve buton/link dolgusunda ton 230–290°, doygunluk > %35 (yalnızca rgb/rgba okunur)
+  const leading = hs ? parseFloat(hs.lineHeight) / parseFloat(hs.fontSize) : NaN;
+  // purple/indigo: hue 230–290°, saturation > 35% in gradients and button/link fills (reads rgb/rgba only)
   const hsl = (r, g, b) => { r /= 255; g /= 255; b /= 255; const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
     if (!d) return [0, 0]; let h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
     h *= 60; if (h < 0) h += 360; return [h, d / (1 - Math.abs(mx + mn - 1))]; };
@@ -161,108 +164,109 @@ Kod sonrası, tarayıcı konsolunda 1440×900 viewport'ta çalıştır. Script, 
   return {
     fonts,
     headline: hs && { font: fam(hs), size: hs.fontSize, weight: hs.fontWeight,
-      trackingEm: +trackingEm.toFixed(3), leading: +(parseFloat(hs.lineHeight) / parseFloat(hs.fontSize)).toFixed(2),
+      trackingEm: +trackingEm.toFixed(3), leading: isNaN(leading) ? 'normal' : +leading.toFixed(2),
       left: Math.round(hr.left), width: Math.round(hr.width), centered },
     flags: [
-      fonts.length > 2 && `font sayısı ${fonts.length} (>2)`,
-      fonts.some(f => /^(inter|poppins|montserrat)/i.test(f)) && 'yasaklı font',
+      fonts.length > 2 && `font count ${fonts.length} (>2)`,
+      fonts.some(f => /^(inter|poppins|montserrat)/i.test(f)) && 'banned font',
       fonts.some(f => /trial/i.test(f)) && 'trial font',
-      fonts.some(f => /^(sans-serif|ui-sans-serif|system-ui|-apple-system|roboto|arial)$/i.test(f)) && 'yedek font sızıntısı',
-      purpleHits > 0 && `mor/indigo × ${purpleHits}`,
-      hs && +hs.fontWeight >= 600 && 'display ağırlık ≥ 600',
+      fonts.some(f => /^(sans-serif|ui-sans-serif|system-ui|-apple-system|blinkmacsystemfont|sf pro.*|roboto|arial|helvetica)$/i.test(f)) && 'fallback font leak',
+      purpleHits > 0 && `purple/indigo × ${purpleHits}`,
+      hs && +hs.fontWeight >= 600 && 'display weight ≥ 600',
       hs && parseFloat(hs.fontSize) >= 48 && trackingEm >= 0 && 'display tracking ≥ 0',
-      centered && 'ortalanmış başlık (şablon C/D değilse ihlal)',
+      centered && 'centered headline (violation unless template C/D)',
       trackedCapsSans > 0 && `tracked caps (sans) × ${trackedCapsSans}`,
-      gradients > 2 && `first screen gradient × ${gradients}`
+      gradients > 2 && `first-screen gradient × ${gradients}`
     ].filter(Boolean)
   };
 })()
 ```
 
-**Test sonucu (23 Kasım 2026):** Corvera 4 bayrak (yasaklı font, ağırlık ≥ 600, ortalanmış, gradient); Ramp 0 bayrak. Mor kontrolü Autumn'da 4, Vela'da 6 isabet verdi, Linear'da 0. Linear yine de "yasaklı font" bayrağı alır.
+**Test result (23 November 2026):** Corvera 4 flags (banned font, weight ≥ 600, centered, gradient); Ramp 0 flags. The purple check returned 4 hits on Autumn, 6 on Vela and 0 on Linear. Linear still gets the "banned font" flag.
 
-**Sınırlamalar**
-- Mor kontrolü yalnızca `rgb()/rgba()` değerlerini okur. `oklch()`/`lab()` ile yazılmış renkler ve görsellerin içindeki mor yakalanmaz; bunları görsel kontrol et.
-- 3 eşit kart, sahte sosyal kanıt, Title Case ve radius yayılması script dışıdır; §6 ve görsel kontrolle bak.
-- "En büyük font" başlık olarak seçilir. Dev bir wordmark (Kernel) varsa başlık yerine onu ölçebilir. Sonucu ön-kod bloğundaki 1. bakışla karşılaştır.
+**Limitations**
+- The purple check reads only `rgb()/rgba()` values. Colors written in `oklch()`/`lab()` and purple inside images are not caught; check those visually.
+- Three equal cards, fake social proof, Title Case and radius sprawl are outside the script; check them with §6 and visually.
+- The "largest font" is taken as the headline. If there is a giant wordmark (Kernel), it may measure that instead of the headline. Compare the result with the 1st look in the pre-code block.
+- Fonts are read from the computed `font-family` declaration. A web font that is declared but fails to load is not detected; check the Network panel or `document.fonts`.
 
 ---
 
-## 6. Statik denetim (tarayıcı yoksa)
+## 6. Static audit (no browser)
 
-Kaynak kodda çalıştır (`src/` yerine proje klasörünü yaz). Bunlar sezgisel aramalardır; her eşleşmeyi gözle doğrula.
+Run these on the source code (replace `src/` with the project folder). They are heuristic searches; verify every match by eye.
 
 ```bash
-# 1 — yasaklı font
+# 1 — banned font
 grep -rniE "font-family[^;]*(inter|poppins|montserrat)|['\"](inter|poppins|montserrat)['\"]|font-(inter|poppins|montserrat)\b" src/
 
-# 2 — mor/indigo (Tailwind sınıfları ve yaygın hex'ler)
+# 2 — purple/indigo (Tailwind classes and common hex values)
 grep -rnE "(from|via|to|bg|text|ring|shadow|border)-(purple|violet|indigo)-[0-9]{2,3}|#(6366f1|4f46e5|8b5cf6|7c3aed|a855f7|9333ea)" src/
 
-# 3 — gradient ve glow
+# 3 — gradient and glow
 grep -rnE "linear-gradient|radial-gradient|conic-gradient|bg-gradient-to-|bg-linear-to-|bg-radial|blur-(2xl|3xl)|drop-shadow-\[" src/
 
 # 4 — tracked caps
 grep -rnE "uppercase[^\"'>]*tracking-(wide|wider|widest)|tracking-(wide|wider|widest)[^\"'>]*uppercase|letter-spacing:\s*0?\.(0[6-9]|[1-9])" src/
 
-# 5 — ortalanmış hero başlığı
+# 5 — centered hero headline
 grep -rnE "<h1[^>]*(text-center|mx-auto)|text-center[^\"'>]*text-(5xl|6xl|7xl|8xl)" src/
 
-# 6 — radius yayılması (sayım; 3+ bileşen tipinde görüyorsan bayrak)
+# 6 — radius sprawl (count; flag if you see it on 3+ component types)
 grep -rnoE "rounded-(xl|2xl|3xl|\[1[2-9]px\]|\[[2-9][0-9]px\])|border-radius:\s*(1[2-9]|[2-9][0-9])px" src/ | wc -l
 
-# 7 — üç eşit kart
+# 7 — three equal cards
 grep -rnE "grid-cols-3|repeat\(3,\s*(1fr|minmax)" src/
 
-# 8 — ağır display
+# 8 — heavy display
 grep -rnE "<h1[^>]*font-(semibold|bold|extrabold|black)|h1[^{]*\{[^}]*font-weight:\s*(6|7|8|9)00" src/
 
-# 9 — sahte sosyal kanıt
+# 9 — fake social proof
 grep -rniE "trusted by|loved by|★|4\.[5-9]/5|[0-9]+k\+ (users|teams|companies)" src/
 
-# 10 — yedek font ve trial font
-grep -rniE "font-family:\s*(system-ui|-apple-system|sans-serif|arial|helvetica|roboto)\b|trial" src/
+# 10 — fallback font and trial font
+grep -rniE "font-family:\s*(system-ui|-apple-system|sans-serif|arial|helvetica|roboto)\b|font-family[^;]*trial|['\"][^'\"]* trial['\"]" src/
 ```
 
-Statik denetimde ölçülemeyenler: göz yolu testleri (bulanıklık, CTA mesafesi). Bunları kodu okuyarak tahmin et ve DENETİM bloğunda "statik — tahmini" olarak işaretle.
+What the static audit cannot measure: the eye-path tests (blur, CTA distance). Estimate them by reading the code and mark them "static — estimated" in the AUDIT block.
 
 ---
 
-## 7. DENETİM bloğu ve gerekçe formatı
+## 7. AUDIT block and justification format
 
 ```
-DENETİM — [sayfa]
-Yöntem: [script | statik]
-Bayraklar: [liste ya da "0 bayrak"]
-Gerekçeler:
-  - [bayrak]: [neden bilinçli] — [dayanak: kullanıcı talebi | marka | şablon izni | galeri kuralı]
-Testler: bulanıklık [geçti/kaldı] · doygun renk [n] · CTA mesafesi [px] · öğe [n]
-Sonuç: [teslim | düzeltildi ve yeniden denetlendi]
+AUDIT — [page]
+Method: [script | static]
+Flags: [list or "0 flags"]
+Justifications:
+  - [flag]: [why it is deliberate] — [basis: user request | brand | template permission | gallery rule]
+Tests: blur [pass/fail] · saturated colors [n] · CTA distance [px] · elements [n]
+Result: [delivered | fixed and re-audited]
 ```
 
-**Örnek**
+**Example** (the Tally page from `eye-path.md` §4)
 ```
-DENETİM — Tally ana sayfa
-Yöntem: script
-Bayraklar: ortalanmış başlık (şablon C/D değilse ihlal)
-Gerekçeler:
-  - ortalanmış başlık: Şablon C; başlık, kurucunun atölye fotoğrafının sakin üst bölgesinde — Mercury kuralı
-Testler: bulanıklık geçti · doygun renk 1 · CTA mesafesi 24px · öğe 4
-Sonuç: teslim
+AUDIT — Tally home page
+Method: script
+Flags: banned font
+Justifications:
+  - banned font: Tally's brand guide specifies Inter; set at 400 weight, -0.03em tracking, 64px, with a single grotesk and no second family — user's brand system (Linear rule)
+Tests: blur pass · saturated colors 1 · CTA distance 24px · elements 5
+Result: delivered
 ```
 
 ---
 
-## 8. Anti-çiftler
+## 8. Anti-pairs
 
-Aynı koşulda farklı sonuç veren çiftler.
+Pairs that produce different results under the same conditions.
 
-| İyi | Anti | Ders |
+| Good | Anti | Lesson |
 |---|---|---|
-| Ramp | Comp AI | Aynı font (Lausanne). Fark: sol hizalı başlık + canlı sayaç + ürün ekranı vs. gradient panel + yıldız rozeti. |
-| Linear | Traceforce | Koyu tema + ürün ekranı. Fark: ürün başlığa bitişik ve düz vs. alttan glow + Title Case. |
-| Panta | Corvera | B2B, sektöre özel başlık. Fark: somut fiil + tek kelime vurgu vs. Poppins + kelime dönüşü. |
-| Kernel | Wato | İkisi de Inter. Fark: wordmark + 300 ağırlık + küçük harf vs. ortalanmış şablon. |
-| Browser Use | Waybill | Koyu, ortalanmış, kısa başlık. Fark: ürün diyagramı vs. glow + ürünsüz hero. |
-| Granola / Char | Vela | Serif başlık. Fark: serif 400 + gerçek ürün vs. Georgia 700 + indigo. |
-| Willow / Asimov | Autumn | Sol hizalı, köşeli. Fark: tek nötr CTA vs. 1. bakışı çalan mor gradient panel. |
+| Ramp | Comp AI | Same font (Lausanne). Difference: left-aligned headline + live counter + product screen vs. gradient panel + star badge. |
+| Linear | Traceforce | Dark theme + product screen. Difference: product adjacent to the headline and flat vs. glow from below + Title Case. |
+| Panta | Corvera | B2B, sector-specific headline. Difference: concrete verb + single-word emphasis vs. Poppins + rotating word. |
+| Kernel | Wato | Both use Inter. Difference: wordmark + 300 weight + lowercase vs. centered template. |
+| Browser Use | Waybill | Dark, centered, short headline. Difference: product diagram vs. glow + product-less hero. |
+| Granola / Char | Vela | Serif headline. Difference: serif 400 + real product vs. Georgia 700 + indigo. |
+| Willow / Asimov | Autumn | Left-aligned, square-cornered. Difference: single neutral CTA vs. a purple gradient panel stealing the 1st look. |

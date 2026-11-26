@@ -1,140 +1,142 @@
 ---
 name: agents-eye
-description: Web arayüzü, landing page, hero, marketing sitesi, ürün/SaaS/startup sayfası, portfolyo veya herhangi bir UI ekranı tasarlarken, kodlarken (HTML/CSS/React/Tailwind), yeniden tasarlarken ya da eleştirirken kullan. Koddan önce göz yolu (1-2-3 odak) analizini zorunlu kılar; Swiss ızgara, φ tabanlı tip skalası, 8px boşluk, en fazla 2 font ve ölçülebilir anti-AI yasakları (Inter/Poppins/Montserrat, mor-indigo gradient, 3 eşit kart, tracked caps, ortalanmış generic hero, sahte sosyal kanıt) uygular; 48 ölçülmüş YC, stüdyo ve altın standart referansından kural çıkarır. Kullanıcı "landing yap", "hero tasarla", "site yap", "daha az AI gibi dursun", "YC tarzı", "Linear/Vercel/Stripe gibi", "redesign", "landing page", "website", "make it look designed" dediğinde ya da görsel bir sayfa üretilecekse, açıkça istenmese bile tetikle.
+description: Use when designing, coding (HTML/CSS/React/Tailwind), redesigning or critiquing a web interface, landing page, hero, marketing site, product/SaaS/startup page, portfolio or any UI screen. Requires an eye-path analysis (1st/2nd/3rd focus) before code; applies a Swiss grid, a φ-based type scale, 8px spacing, at most 2 fonts and measurable anti-AI bans (Inter/Poppins/Montserrat, purple-indigo gradients, three equal cards, tracked caps, centered generic hero, fake social proof); derives rules from 48 measured YC, studio and gold-standard references. Trigger when the user says "build a landing page", "design a hero", "make a site", "make it look less AI", "YC style", "like Linear/Vercel/Stripe", "redesign", "website", "make it look designed", or whenever a visual page is being produced, even if not explicitly asked.
 license: MIT
 ---
 
 # agents-eye
 
-AI üretimi arayüzlerin sorunu çoğunlukla çirkinlik değil, **karar yokluğu**: varsayılan font, varsayılan ortalanmış iskelet, varsayılan mor, her yerde aynı yumuşak köşe. Bu skill her varsayılanı ölçülebilir bir karara çevirir. Sıra hep aynıdır: önce gözün nereye gideceğine karar ver, sonra ölçülmüş bir sistemle uygula, en son ölç.
+The problem with AI-generated interfaces is usually not ugliness but **the absence of decisions**: the default font, the default centered skeleton, the default purple, the same soft corner everywhere. This skill turns every default into a measurable decision. The order is always the same: first decide where the eye goes, then apply a measured system, and measure last.
 
-Hedef ton: YC/SF. Net, geri çekilmiş, ürün odaklı; ama içinde hiç "AI vibe" yok.
+Target tone: YC/SF. Clear, restrained, product-focused, with no "AI vibe" at all.
 
 ---
 
-## Protokol
+## Protocol
 
-Adımları sırayla uygula. Bir adımı atlamak, sonrakileri anlamsızlaştırır.
+Follow the steps in order. Skipping a step makes the ones after it meaningless.
 
-### 1. Göz yolu şablonunu seç (A–E)
-`references/eye-path.md` dosyasını oku ve karar ağacıyla şablonu seç:
+### 1. Pick an eye-path template (A–E)
+Read `references/eye-path.md` and pick a template with the decision tree:
 
-| Şablon | Ne zaman | Özet |
+| Template | When | Summary |
 |---|---|---|
-| **A** Bölünmüş hero | Ürün arayüzü gösterilebiliyor | Sol başlık → ürün ekranı → CTA |
-| **B** Nesne/imza-önce | Ürün soyut ama tek nesneyle anlatılabiliyor ya da marka imza öğesi var | Nesne → başlık → CTA |
-| **C** Fotoğraf-anlatı | Markaya özgü, hikaye anlatan bir fotoğraf var | Fotoğraf → başlık → CTA (ortalamaya izin veren tek şablon) |
-| **D** Tipografi-önce | Mesaj tek cümlede güçlü, ürün henüz gösterilemiyor | Dev başlık → vurgu/lead → CTA |
-| **E** Sistem/editoryal | Kişilik metinle taşınıyor (stüdyo, araştırma) | Tek punto, hiyerarşi sıra ve opaklıkla |
+| **A** Split hero | The product interface can be shown | Left headline → product screen → CTA |
+| **B** Object/signature-first | The product is abstract but can be told with a single object, or the brand has a signature element | Object → headline → CTA |
+| **C** Photo narrative | There is a brand-specific photo that tells a story | Photo → headline → CTA (the only template that allows centering) |
+| **D** Type-first | The message is strong in one sentence and the product cannot be shown yet | Giant headline → emphasis/lead → CTA |
+| **E** System/editorial | The personality is carried by text (studio, research) | One type size, hierarchy through order and opacity |
 
-Emin değilsen **A** seç; en güvenlisi o.
+If unsure, pick **A**; it is the safest.
 
-### 2. Ön-kod bloğunu yaz
-Şablonun 2 referansını seç, her birinden **3 ölçülebilir kural** çıkar ve bloğu doldur. Format kilitlidir (ayrıntı: `references/eye-path.md` §4):
-
-```
-EYE PATH — [sayfa/ekran adı]
-Şablon: [A|B|C|D|E|app] (+varyant) — referans: [ref 1], [ref 2]
-Çıkarılan kurallar:
-  - [ref 1]: [kural 1]; [kural 2]; [kural 3]
-  - [ref 2]: [kural 1]; [kural 2]; [kural 3]
-1. bakış: [öğe] — neden: [boyut / kontrast / konum / renk, sayıyla]
-2. bakış: [öğe] — neden: [...]
-3. bakış: [öğe] — neden: [...]
-Rakip: [1. bakışı çalabilecek öğe]
-Bastırma: [o öğeyi nasıl geri çektin]
-Doygun renk sayısı: [0|1] — [hangi öğe]
-First screen öğe sayısı: [n ≤ 6] — [liste]
-```
-
-"Neden" satırına "dikkat çekici" gibi bir sıfat yazma, sayı yaz ("64px, sayfadaki en büyük ve en koyu kütle, sol üst"). Sayı yazamıyorsan karar henüz verilmemiş demektir.
-
-### 3. Sistem kurallarını uygula
-- `references/swiss-system.md`: φ tip skalası, 8px boşluk, 1440 ızgarası, renk ve radius tokenları.
-- `references/type-and-color.md`: en fazla 2 font, üç font tarifi, yasak ve önerilen fontlar, renk kuralları.
-
-Kodlamadan önce kısa bir SİSTEM bloğu yaz:
+### 2. Write the pre-code block
+Pick 2 references for the template, extract **3 measurable rules** from each and fill in the block. The format is locked (details: `references/eye-path.md` §4):
 
 ```
-SİSTEM
-Fontlar: [font 1] (rol) + [font 2] (rol) — tarif: [1|2|3] — gerekçe: [marka karakteri]
-Display: [px]/[ağırlık]/[tracking em]/[leading] · Body: [px]/[ağırlık]/[leading]
-Renk: bg [hex] · fg [hex] · muted [hex/opaklık] · accent [hex] (yalnızca birincil CTA)
-Radius: [0|2|4|6] (+ pill yalnızca birincil CTA: evet/hayır)
-Izgara: 12 kolon, gutter 24, kenar [px]; başlık [n] kolon
+EYE PATH — [page/screen name]
+Template: [A|B|C|D|E|app] (+variant) — references: [ref 1], [ref 2]
+Extracted rules:
+  - [ref 1]: [rule 1]; [rule 2]; [rule 3]
+  - [ref 2]: [rule 1]; [rule 2]; [rule 3]
+1st look: [element] — why: [size / contrast / position / color, with numbers]
+2nd look: [element] — why: [...]
+3rd look: [element] — why: [...]
+Competitor: [element that could steal the 1st look]
+Suppression: [how you pulled that element back]
+Saturated colors: [0|1] — [which element]
+First-screen elements: [n ≤ 6] — [list]
 ```
 
-### 4. Kodla
-Blokları koda birebir çevir. Kodlarken bloktan sapman gerekirse, önce bloğu güncelle; sonra kodu değiştir.
+Do not write an adjective such as "eye-catching" on a "why" line; write numbers ("64px, the largest and darkest mass on the page, top left"). If you cannot write a number, the decision has not been made yet.
 
-### 5. Denetle
-- Tarayıcı varsa: `references/anti-ai.md` §5'teki denetim scriptini 1440×900'de çalıştır.
-- Tarayıcı yoksa: `references/anti-ai.md` §6'daki statik denetimi (grep) uygula.
-- Ardından `references/eye-path.md` §6'daki 4 doğrulama testini yap (bulanıklık, renk sayısı, CTA mesafesi, öğe sayısı).
+### 3. Apply the system rules
+- `references/swiss-system.md`: φ type scale, 8px spacing, 1440 grid, color and radius tokens.
+- `references/type-and-color.md`: at most 2 fonts, three font recipes, banned and recommended fonts, color rules.
 
-Her bayrak için tek satırlık gerekçe yaz ya da düzelt. **Bayrak otomatik ret değildir, gerekçe zorunluluğudur.** Linear da "yasaklı font" bayrağı alır; fark, gerekçesinin olması.
+Before coding, write a short SYSTEM block:
+
+```
+SYSTEM
+Fonts: [font 1] (role) + [font 2] (role) — recipe: [1|2|3] — rationale: [brand character]
+Display: [px]/[weight]/[tracking em]/[leading] · Body: [px]/[weight]/[leading]
+Color: bg [hex] · fg [hex] · muted [hex/opacity] · accent [hex] (primary CTA only)
+Radius: [0|2|4|6] (+ pill on primary CTA only: yes/no)
+Grid: 12 columns, gutter 24, margin [px]; headline [n] columns
+```
+
+### 4. Code
+Translate the blocks into code one to one. If you need to deviate from a block while coding, update the block first, then change the code.
+
+### 5. Audit
+- With a browser: run the audit script in `references/anti-ai.md` §5 at 1440×900.
+- Without a browser: run the static audit (grep) in `references/anti-ai.md` §6.
+- Then run the 4 validation tests in `references/eye-path.md` §6 (blur, color count, CTA distance, element count).
+
+For every flag, write a one-line justification or fix it. **A flag is not an automatic rejection; it is a requirement to justify.** Linear also gets a "banned font" flag; the difference is that it has a justification.
 
 ---
 
-## Sert kurallar
+## Hard rules
 
-Bu kuralların her birinin arkasında galeride ölçülmüş bir neden var. Neden önemli olduklarını bilmek, istisnayı doğru tanımana yardım eder.
+Each of these rules has a reason measured in the gallery behind it. Knowing why they matter helps you recognize a real exception.
 
-1. **Göz yolu analizi yapmadan kod yazma.** Ön-kod bloğu olmayan bir arayüz, varsayılanların toplamıdır. Anti-örneklerin hepsinde 1. bakışın sahibi belirsiz.
-2. **Referansları kopyalama; onlardan kural çıkar.** Düzeni, görseli, kopyayı ya da renk paletini birebir alma. Çıkardığın şey ölçü olmalı (boyut, ağırlık, tracking, aralık, renk sayısı). Ramp ve Comp AI aynı fontu kullanıyor; sonucu belirleyen font değil, kurallar.
-3. **En fazla 2 font ailesi.** Bir süper ailenin mono üyesi ikinci font sayılır (Geist + Geist Mono = 2). Üçüncü bir vurgu fontu yerine 2 font içinde italik ya da renk kullan.
-4. **Yasak fontlar: Inter (tüm varyantları), Poppins, Montserrat.** Linear, Panta ve Kernel Inter'i 510/300 ağırlık ve -0.02/-0.05em tracking ile kurtarıyor; agent bu ince ayarı güvenilir şekilde tutturamadığı için yasak.
-5. **Tek doygun renk = tek eylem.** Doygun renk yalnızca birincil CTA'da; istisna olarak B şablonundaki nesnede ya da başlıkta tek bir kelimede, CTA ile aynı renkte kullanılabilir.
-6. **Mor/indigo yok.** Gradient'te, glow'da ya da CTA dolgusunda ton 230–290°, HSL doygunluğu %35'in üstündeyse ihlal. Kullanıcının marka rengi morsa yalnızca düz CTA rengi olarak kullan ve bayrağa gerekçe yaz.
-7. **Display başlık 400–500 ağırlıkta ve negatif tracking'le.** Güçlü örneklerin çoğunda başlıklar 300–510 ağırlıkta, tracking -0.02/-0.05em. Anti-örneklerde 600–700 ve tracking sıfır ya da pozitif.
-8. **Boşluklar 8px katı.** Başlık → lead 16–24px, lead → CTA 24–32px. 22, 25, 28 gibi değerler ızgara dışıdır.
-9. **Sahte sosyal kanıt yok.** Yıldız rozeti, isimsiz testimonial, "Trusted by" etiketli gri logo duvarı kullanma. Yerine canlı/kesin sayı ya da gerçek ürün verisi koy.
-10. **First screen'de nav hariç en fazla 6 öğe.** Linear 3, Zomma 4 öğe kullanıyor.
-11. **Ortalanmış başlık yalnızca C şablonunda ya da 96px üstü tek bir display ifadesinde.** Rozet → ortalanmış başlık → gri metin → iki CTA → glow/logo duvarı iskeleti, galerinin bütün ortalanmış anti-örneklerinde var.
-12. **Sentence case.** Title Case başlık ve sans-serif tracked caps etiket yok. Büyük harf yalnızca mono metaveride, satır başına bir kez.
+1. **Do not write code without an eye-path analysis.** An interface without a pre-code block is the sum of its defaults. In every anti-example, the owner of the 1st look is unclear.
+2. **Do not copy references; extract rules from them.** Do not take the layout, imagery, copy or color palette verbatim. What you extract must be a measurement (size, weight, tracking, spacing, number of colors). Ramp and Comp AI use the same font; the rules decide the outcome, not the font.
+3. **At most 2 font families.** The mono member of a superfamily counts as a second font (Geist + Geist Mono = 2). Instead of a third accent font, use italics or color within the 2 fonts.
+4. **Banned fonts: Inter (all variants), Poppins, Montserrat.** Linear, Panta and Kernel rescue Inter with 510/300 weights and -0.02/-0.05em tracking; it is banned because an agent cannot hit that fine-tuning reliably.
+5. **One saturated color = one action.** Saturated color appears only on the primary CTA; as an exception it may be used on the object in template B or on a single word in the headline, in the same color as the CTA.
+6. **No purple/indigo.** A hue of 230–290° with HSL saturation above 35% in a gradient, glow or CTA fill is a violation. If the user's brand color is purple, use it only as a flat CTA color and write a justification for the flag.
+7. **Display headline at 400 weight by default (300–500) with negative tracking.** In most strong examples, headlines are 300–510 weight with -0.02/-0.05em tracking. In the anti-examples they are 600–700 with zero or positive tracking.
+8. **Spacing in multiples of 8px.** Headline → lead 16–24px, lead → CTA 24–32px. Values such as 22, 25 or 28 are off-grid.
+9. **No fake social proof.** Do not use star badges, anonymous testimonials or a gray logo wall labeled "Trusted by". Use a live/exact number or real product data instead.
+10. **At most 6 elements on the first screen, excluding the nav.** Linear uses 3, Zomma 4.
+11. **A centered headline only in template C or in a single display phrase above 96px.** The skeleton badge → centered headline → gray text → two CTAs → glow/logo wall appears in every centered anti-example in the gallery.
+12. **Sentence case.** No Title Case headlines and no sans-serif tracked-caps labels. Capitals only in mono metadata, once per line.
 
 ---
 
-## Hangi dosyayı ne zaman oku
+## Which file to read when
 
-| Dosya | Ne zaman |
+| File | When |
 |---|---|
-| `references/eye-path.md` | Her görevde, 1. adımda. Şablon tanımları, ön-kod bloğu, rakip öğeler, doğrulama testleri. |
-| `references/swiss-system.md` | 3. adımda. Ölçüler ve tokenlar; hazır CSS başlangıç dosyası §7'de. |
-| `references/type-and-color.md` | 3. adımda. Font seçimi ve renk paleti. |
-| `references/anti-ai.md` | 5. adımda ve kod yazmadan önce §4'teki öz-kontrolde. |
+| `references/eye-path.md` | Every task, in step 1. Template definitions, pre-code block, competing elements, validation tests. |
+| `references/swiss-system.md` | In step 3. Measurements and tokens; a ready-made CSS starter file is in §7. |
+| `references/type-and-color.md` | In step 3. Font choice and color palette. |
+| `references/anti-ai.md` | In step 5, and for the self-check in §4 before writing code. |
 
 ---
 
-## Çıktı sırası
+## Output order
 
-Kullanıcıya gösterdiğin yanıt bu sırayla ilerler:
+The response you show the user follows this order:
 
-1. **EYE PATH** bloğu
-2. **SİSTEM** bloğu
-3. Kod
-4. **DENETİM** bloğu:
+1. **EYE PATH** block
+2. **SYSTEM** block
+3. Code
+4. **AUDIT** block (format: `references/anti-ai.md` §7):
 
 ```
-DENETİM — [sayfa]
-Script/statik: [bayrak listesi ya da "0 bayrak"]
-Gerekçeler:
-  - [bayrak]: [neden bilinçli] — [kural ya da referans]
-Testler: bulanıklık [geçti/kaldı] · doygun renk [n] · CTA mesafesi [px] · öğe [n]
+AUDIT — [page]
+Method: [script | static]
+Flags: [list or "0 flags"]
+Justifications:
+  - [flag]: [why it is deliberate] — [basis: user request | brand | template permission | gallery rule]
+Tests: blur [pass/fail] · saturated colors [n] · CTA distance [px] · elements [n]
+Result: [delivered | fixed and re-audited]
 ```
 
-Denetim bir bayrak ya da başarısız test gösteriyorsa ve gerekçe yazamıyorsan, kodu düzelt ve denetimi tekrarla.
+If the audit shows a flag or a failed test and you cannot write a justification, fix the code and run the audit again.
 
 ---
 
-## Özel durumlar
+## Special cases
 
-**Mevcut bir sayfayı eleştirmek ya da redesign etmek.** Önce sayfanın *mevcut* göz yolunu ön-kod bloğu formatında yaz (rakipler dahil). Denetimi mevcut sayfaya uygula. Ardından en yakın şablonu seç ve düzeltmeleri etki sırasına göre listele: 1. bakışın sahibi → renk → tipografi → boşluk.
+**Critiquing or redesigning an existing page.** First write the page's *current* eye path in the pre-code block format (competitors included). Run the audit on the current page. Then pick the closest template and list the fixes in order of impact: owner of the 1st look → color → typography → spacing.
 
-**Kullanıcının marka sistemi var.** Kullanıcının kurumsal fontu, logo rengi ya da tasarım sistemi bu skill'in varsayılanlarının önüne geçer. Çakışma varsa (ör. kurumsal font Montserrat), kullan ama DENETİM'de bayrak ve gerekçe olarak yaz. Bunu tipografi ayarıyla dengele (ağırlık 400–500, -0.02em tracking).
+**The user has a brand system.** The user's corporate font, logo color or design system takes precedence over this skill's defaults. If there is a conflict (e.g. the corporate font is Montserrat), use it but record it in the AUDIT as a flag with a justification. Balance it with typographic tuning (weight 400–500, -0.02em tracking).
 
-**Uygulama/dashboard ekranları.** A–E şablonları marketing first screen'i içindir. Uygulama ekranlarında şablon satırına `app` yaz. 1. bakış ekranın birincil verisi ya da görevi, 2. bakış bağlam, 3. bakış birincil eylem olur. Ön-kod bloğu ve denetim yine zorunlu.
+**App/dashboard screens.** Templates A–E are for the marketing first screen. On app screens, write `app` on the template line. The 1st look is the screen's primary data or task, the 2nd look is context, the 3rd look is the primary action. The pre-code block and the audit are still required.
 
-**Bölümler (first screen sonrası).** Her bölümde tek bir 1. bakış olur. 3 eşit kart yerine asimetrik bölünme (8+4, 7+5) ya da liste kullan. Ayrıntı: `references/eye-path.md` §7.
+**Sections (after the first screen).** Each section has a single 1st look. Instead of three equal cards, use an asymmetric split (8+4, 7+5) or a list. Details: `references/eye-path.md` §7.
 
-**Kullanıcı açıkça bir yasağı istiyor** (ör. "mor gradient olsun"). Kullanıcının isteği geçerlidir; uygula. DENETİM'de bayrağı göster ve yasağın neden var olduğunu tek satırla belirt.
+**The user explicitly asks for something banned** (e.g. "use a purple gradient"). The user's request wins; do it. Show the flag in the AUDIT and state in one line why the ban exists.
